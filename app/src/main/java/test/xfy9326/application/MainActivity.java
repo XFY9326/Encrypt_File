@@ -63,8 +63,9 @@ public class MainActivity extends Activity {
         setup.setOnProcessChangedListener(new Setup.OnProcessChangedListener() {
 
             @Override
-            public void onChanged(ArrayList<File> file_list, int work_mount) {
+            public void onChanged(ArrayList<File> file_list, ArrayList<File> file_worked) {
                 int total_mount = file_list.size();
+                int work_mount = file_worked.size();
                 System.out.println(total_mount + "|" + work_mount);
 
                 float count = (float) work_mount / (float) total_mount;

@@ -44,6 +44,6 @@ public class Setup {
     }
 
     public interface OnProcessChangedListener {
-        void onChanged(ArrayList<File> file_list, int work_mount);
+        void onChanged(ArrayList<File> file_list, ArrayList<File> file_worked);
     }
 }

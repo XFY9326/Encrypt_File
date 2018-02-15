@@ -12,9 +12,9 @@ class Core {
     private String path;
     private String[] type;
     private boolean enCode;
-    private int finish_file_mount;
     private ExecutorService executor;
     private ArrayList<File> selected_file;
+    private ArrayList<File> worked_file;
     private Setup.OnProcessChangedListener listener;
 
     Core(String file_path, String[] file_type, String password, boolean isEncrypt) {
@@ -23,6 +23,7 @@ class Core {
         this.type = file_type;
         this.enCode = isEncrypt;
         selected_file = new ArrayList<>();
+        worked_file = new ArrayList<>();
         executor = Executors.newFixedThreadPool(getCpuNum() - 1);
     }
 
@@ -31,11 +32,10 @@ class Core {
             @Override
             public void run() {
                 selected_file.clear();
-                finish_file_mount = 0;
                 searchFile(new File(path), type);
                 if (selected_file.size() > 0) {
                     if (listener != null) {
-                        listener.onChanged(selected_file, 0);
+                        listener.onChanged(selected_file, worked_file);
                     }
                     if (enCode) {
                         enFile();
@@ -87,7 +87,7 @@ class Core {
                     byte[] data = IO.read(file);
                     data = IO.encrypt(data, pw);
                     IO.write(data, file);
-                    eachFileFinish();
+                    eachFileFinish(file);
                 }
             });
         }
@@ -102,16 +102,16 @@ class Core {
                     byte[] data = IO.read(file);
                     data = IO.decrypt(data, pw);
                     IO.write(data, file);
-                    eachFileFinish();
+                    eachFileFinish(file);
                 }
             });
         }
     }
 
-    synchronized private void eachFileFinish() {
+    synchronized private void eachFileFinish(File file) {
         if (listener != null) {
-            finish_file_mount++;
-            listener.onChanged(selected_file, finish_file_mount);
+            worked_file.add(file);
+            listener.onChanged(selected_file, worked_file);
         }
     }
 
