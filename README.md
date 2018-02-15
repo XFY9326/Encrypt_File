@@ -12,8 +12,8 @@ Android Library which use AES to encrypt files
         setup.setOnProcessChangedListener(new Setup.OnProcessChangedListener() {
 
             @Override
-            //file_list 所有加密的文件列表  work_amount 已经加密的文件数量
-            public void onChanged(ArrayList<File> file_list, int work_mount) {
+            //file_list 所有加密的文件列表   file_worked 已经加密的文件列表
+            public void onChanged(ArrayList<File> file_list,  ArrayList<File> file_worked) {
               
             }
 
