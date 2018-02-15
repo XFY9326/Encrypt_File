@@ -1,0 +1,17 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "test.xfy9326.application"
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 1
+        versionName "Test Use"
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':Encrypt_File')
+}
